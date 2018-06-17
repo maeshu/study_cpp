@@ -1,38 +1,46 @@
 #include <iostream>
-#define MAX_S 256
-
-int input(int[], int);
-void free_buffer(void);
-void output(int[], int);
-void re_allocate(int);
-int (*buf)[MAX_S];
-int line_cnt = 1;
-
+int input();
+void free_buffer(int*);
+void output(int*, int);
+int* buf;
+int flag = 0;
+//int buf_counter = 0;
 int main()
 {
-        buf = (int(*)[MAX_S])malloc(sizeof(int) * MAX_S);
-        if (buf == NULL)
+	buf = (int*)realloc(nullptr, sizeof(int));
+        if (buf == nullptr)
         {
                 return -1;
         }
-        do
-        {
-                re_allocate(line_cnt++);
-                output(*buf, input(*buf, MAX_S));
-        } while(std::getchar() != 27);
 
+	while(flag != 1)
+	{
+        output(buf, input());
+	}
+	free_buffer(buf);
 }
-
-
-int input(int s[], int lim)
+int input()
 {
-        int c, i;
-        for (i = 0; i < lim - 1 && (c = std::getchar()) != '\n'; i++)
+	/*
+        buf = (int*)realloc(nullptr, sizeof(int));
+        if (buf == nullptr)
         {
-                s[i] = c;
+                return -1;
         }
-        s[i] = '\0';
-        return i;
+	*/
+	int buf_counter = 0;
+	do
+	{
+		*(buf+buf_counter) = std::getchar();
+		if(*(buf+buf_counter) == 27)
+		{
+		flag = 1;
+		break;
+		}	
+		buf = (int*)realloc(buf, sizeof(int)*(++buf_counter + 2));
+	}while(*(buf+buf_counter) != '\0');
+	*(buf+buf_counter) = '\0';
+	return buf_counter;
 }
 
 void output(int s[], int num)
@@ -42,7 +50,7 @@ void output(int s[], int num)
                 std::putchar(s[i]);
         }
 }
-
+/*
 void re_allocate(int i){
         int (*tmp)[MAX_S] = NULL;
         tmp = (int(*)[MAX_S])realloc(buf, i * sizeof(int) * MAX_S);
@@ -52,10 +60,12 @@ void re_allocate(int i){
         buf = tmp;
 }
 
-
-void free_buffer()
+*/
+void free_buffer(int* s)
 {
-        if (buf)
-                free(buf);
-        buf = NULL;
+        if (s)
+        {
+	free(s);
+        }
+        s = nullptr;
 }
