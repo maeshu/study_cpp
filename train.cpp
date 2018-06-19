@@ -1,71 +1,63 @@
 #include <iostream>
+
 int input();
-void free_buffer(int*);
-void output(int*, int);
-int* buf;
+void free_bufferfer(char*);
+void output(char*, int);
+
+char* buffer;
 int flag = 0;
-//int buf_counter = 0;
+
+struct Data
+{
+int length = 1；
+
+};
+
+
 int main()
 {
-	buf = (int*)realloc(nullptr, sizeof(int));
-        if (buf == nullptr)
-        {
-                return -1;
-        }
-
-	while(flag != 1)
-	{
-        output(buf, input());
-	}
-	free_buffer(buf);
+								buffer = (char*)malloc(sizeof(char));
+								if (buffer == nullptr)
+								{
+																return -1;
+								}
+								while (flag != 1)
+								{
+																output(buffer, input());
+								}
+								free_bufferfer(buffer);
 }
+
 int input()
 {
-	/*
-        buf = (int*)realloc(nullptr, sizeof(int));
-        if (buf == nullptr)
-        {
-                return -1;
-        }
-	*/
-	int buf_counter = 0;
-	do
-	{
-		*(buf+buf_counter) = std::getchar();
-		if(*(buf+buf_counter) == 27)
-		{
-		flag = 1;
-		break;
-		}	
-		buf = (int*)realloc(buf, sizeof(int)*(++buf_counter + 2));
-	}while(*(buf+buf_counter) != '\0');
-	*(buf+buf_counter) = '\0';
-	return buf_counter;
+								int length = 0;
+								do
+								{
+																buffer[length] = std::getchar();
+																if (buffer[length] == 27)
+																{
+																								flag = 1;
+																								break;
+																}
+																buffer = (char*)realloc(buffer, sizeof(char) * (++length + 2));
+								} while (buffer[length] != '\0');
+								buffer[length] = '\0';
+								return length;
 }
 
-void output(int s[], int num)
+void output(char* s, int n)
 {
-        for (int i = 0; i < num; i++)
-        {
-                std::putchar(s[i]);
-        }
-}
-/*
-void re_allocate(int i){
-        int (*tmp)[MAX_S] = NULL;
-        tmp = (int(*)[MAX_S])realloc(buf, i * sizeof(int) * MAX_S);
-        if (!tmp) {
-                free_buffer();
-        }
-        buf = tmp;
+								for (int i = 0; i < n; i++)
+								{
+																std::putchar(s[i]);
+								}
 }
 
-*/
-void free_buffer(int* s)
+void free_bufferfer(char* s)
 {
-        if (s)
-        {
-	free(s);
-        }
-        s = nullptr;
+								if (s)
+								{
+																free(s);
+								}
+								s = nullptr;
 }
