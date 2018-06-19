@@ -1,63 +1,63 @@
 #include <iostream>
 
-int input();
-void free_bufferfer(char*);
-void output(char*, int);
 
-char* buffer;
 int flag = 0;
 
-struct Data
+struct string_data
 {
-int length = 1；
-
+	char* buffer;
+	int length;
 };
 
+struct string_data input(struct string_data *data);
+void output(struct string_data *data);
+void free_buffer(struct string_data *data);
 
 int main()
 {
-								buffer = (char*)malloc(sizeof(char));
-								if (buffer == nullptr)
-								{
-																return -1;
-								}
-								while (flag != 1)
-								{
-																output(buffer, input());
-								}
-								free_bufferfer(buffer);
+	struct string_data moji;
+	buffer = dynamic_cast<char*>(malloc(sizeof(char)));
+	if (moji.buffer == nullptr)
+	{
+		return -1;
+	}
+		while (flag != 1)
+		{
+			output(moji.buffer, input());
+		}
+	free_buffer(moji.buffer);
 }
 
-int input()
+
+struct string_data input(struct string_data *data)
 {
-								int length = 0;
-								do
-								{
-																buffer[length] = std::getchar();
-																if (buffer[length] == 27)
-																{
-																								flag = 1;
-																								break;
-																}
-																buffer = (char*)realloc(buffer, sizeof(char) * (++length + 2));
-								} while (buffer[length] != '\0');
-								buffer[length] = '\0';
-								return length;
+	do
+	{
+		data->buffer[data->length] = std::getchar();
+		if (data->buffer[data->length] == 27)
+		{
+			flag = 1;
+			break;
+		}
+		data->buffer = (char*)realloc(data->buffer, sizeof(char) * (++data->length + 2));
+	} while (data->buffer[data->length] != '\0');
+	data->buffer[data->length] = '\0';
+	return data->length;
 }
 
-void output(char* s, int n)
+void output(struct string_data *data)
 {
-								for (int i = 0; i < n; i++)
-								{
-																std::putchar(s[i]);
-								}
+	for (int i = 0; i < data->length; i++)
+	{
+		std::putchar(data->buffer[i]);
+	}
 }
 
-void free_bufferfer(char* s)
+void free_buffer(struct string_data *data)
 {
-								if (s)
-								{
-																free(s);
-								}
-								s = nullptr;
+	if (data->buffer)
+	{
+	free(data->buffer);
+	}
+	data-buffer = nullptr;
 }
